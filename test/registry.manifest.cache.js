@@ -119,6 +119,11 @@ test('supports fetching from an optional cache', function (t) {
   })
 })
 
+// This test should prevent future footgunning if the caching logic changes
+// accidentally. Caching manifests themselves should be entirely the job of the
+// package fetcher.
+test('does not insert plain manifests into the cache')
+
 test('expires stale request data')
 test('allows forcing use of cache when data stale')
 test('falls back to registry if cache entry is invalid JSON')
@@ -138,8 +143,3 @@ test('falls back to registry if cache entry missing', function (t) {
     t.end()
   })
 })
-
-// This test should prevent future footgunning if the caching logic changes
-// accidentally. Caching manifests themselves should be entirely the job of the
-// package fetcher.
-test('does not insert plain manifests into the cache')
