@@ -1,5 +1,8 @@
 'use strict'
 
+if (process.stdout._handle && process.stdout._handle.setBlocking)
+  process.stdout._handle.setBlocking(true)
+
 process.on('exit', function (code) {
   console.log('# custom process.on("exit") code=%j', code)
 })
