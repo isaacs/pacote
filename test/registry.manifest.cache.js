@@ -1,5 +1,13 @@
 'use strict'
 
+process.on('exit', function (code) {
+  console.log('# custom process.on("exit") code=%j', code)
+})
+
+process.on('beforeExit', function (code) {
+  console.log('# custom process.on("beforeExit") code=%j', code)
+})
+
 var cache = require('../lib/cache')
 var npmlog = require('npmlog')
 var test = require('tap').test
@@ -143,3 +151,5 @@ test('falls back to registry if cache entry missing', function (t) {
     t.end()
   })
 })
+
+console.log('# done defining tests')
