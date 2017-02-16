@@ -16,12 +16,14 @@ process.once('beforeExit', function (code) {
 
 var onExit = require('signal-exit')
 onExit(function (code, signal) {
-  console.log('exiting code=%j signal=%j', code, signal)
+  console.log('exiting code=%j signal=%j', code, signal, t)
+  t.end()
 })
 
 var cache = require('../lib/cache')
 var npmlog = require('npmlog')
-var test = require('tap').test
+var t = require('tap')
+var test = t.test
 var testDir = require('./util/test-dir')
 var tnock = require('./util/tnock')
 
