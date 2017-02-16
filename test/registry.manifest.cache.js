@@ -10,8 +10,13 @@ process.on('exit', function (code) {
   console.log('# custom process.on("exit") code=%j', code)
 })
 
-process.on('beforeExit', function (code) {
+process.once('beforeExit', function (code) {
   console.log('# custom process.on("beforeExit") code=%j', code)
+})
+
+var onExit = require('signal-exit')
+onExit(function (code, signal) {
+  console.log('exiting code=%j signal=%j', code, signal)
 })
 
 var cache = require('../lib/cache')
