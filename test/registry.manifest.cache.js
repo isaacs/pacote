@@ -2,6 +2,9 @@
 
 if (process.stdout._handle && process.stdout._handle.setBlocking)
   process.stdout._handle.setBlocking(true)
+else
+  console.log('# could not set stdout blocking', process.stdout._handle)
+
 
 process.on('exit', function (code) {
   console.log('# custom process.on("exit") code=%j', code)
