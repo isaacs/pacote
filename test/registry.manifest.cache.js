@@ -5,7 +5,6 @@ if (process.stdout._handle && process.stdout._handle.setBlocking)
 else
   console.log('# could not set stdout blocking', process.stdout._handle)
 
-
 process.on('exit', function (code) {
   console.log('# custom process.on("exit") code=%j', code)
 })
@@ -16,13 +15,24 @@ process.once('beforeExit', function (code) {
 
 var onExit = require('signal-exit')
 onExit(function (code, signal) {
-  console.log('exiting code=%j signal=%j', code, signal, t)
-  t.end()
+  console.log('# exiting code=%j signal=%j', code, signal, t)
+  t.process()
 })
 
 var cache = require('../lib/cache')
 var npmlog = require('npmlog')
 var t = require('tap')
+
+t.end = function (end) { return function () {
+  console.trace('---- end ----', t)
+  return end.apply(t, arguments)
+}}(t.end)
+
+t.endAll = function (endAll) { return function () {
+  console.trace('---- endAll ----', t)
+  return endAll.apply(t, arguments)
+}}(t.endAll)
+
 var test = t.test
 var testDir = require('./util/test-dir')
 var tnock = require('./util/tnock')
