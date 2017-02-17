@@ -1,4 +1,6 @@
 'use strict'
+var t = require('tap')
+t.comment('just some comment to kick us off')
 
 if (process.stdout._handle && process.stdout._handle.setBlocking)
   process.stdout._handle.setBlocking(true)
@@ -15,13 +17,13 @@ process.once('beforeExit', function (code) {
 
 var onExit = require('signal-exit')
 onExit(function (code, signal) {
-  console.log('# exiting code=%j signal=%j', code, signal, t)
+  console.error('exiting code=%j signal=%j err', code, signal, t)
+  console.log('# exiting code=%j signal=%j out', code, signal, t)
   t.process()
 })
 
 var cache = require('../lib/cache')
 var npmlog = require('npmlog')
-var t = require('tap')
 
 t.end = function (end) { return function () {
   console.trace('---- end ----', t)
