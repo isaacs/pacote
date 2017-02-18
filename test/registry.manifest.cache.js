@@ -1,13 +1,12 @@
 'use strict'
-
-if (process.stdout._handle && process.stdout._handle.setBlocking)
-  process.stdout._handle.setBlocking(true)
-else
-  console.log('# could not set stdout blocking', process.stdout._handle)
-
 var t = require('tap')
 var cache = require('../lib/cache')
 var npmlog = require('npmlog')
+
+t.endAll = function (endAll) { return function () {
+  console.trace('TAP endAll')
+  return endAll.apply(this, arguments)
+}}(t.endAll)
 
 var test = t.test
 var testDir = require('./util/test-dir')
