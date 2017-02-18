@@ -23,7 +23,13 @@ function manifest (spec, opts, cb) {
   rps(spec, function (err, res) {
     console.error('# rps cb', spec, err, res)
     if (err) { return cb(err) }
-    var fetcher = handlers[res.type] || (handlers[res.type] = require('./lib/handlers/' + res.type + '/manifest'))
+    try {
+      var fetcher = handlers[res.type] || (handlers[res.type] = require('./lib/handlers/' + res.type + '/manifest'))
+    } catch (er) {
+      console.error('error getting fetcher', er)
+      throw er
+    }
+    console.error('calling fetcher', fetcher)
     fetcher(res, opts, function (err, mani) {
       console.error('# fetcher cb', spec, err, mani)
       cb(err, mani)
