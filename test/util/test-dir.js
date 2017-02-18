@@ -20,6 +20,8 @@ function testDir (filename) {
       } catch (e) {
         if (process.platform !== 'win32') {
           throw e
+        } else {
+          console.log('testDir error on windows', e)
         }
       }
     })
@@ -33,12 +35,15 @@ function testDir (filename) {
 
 module.exports.reset = reset
 function reset (testDir) {
+  console.log('~~~ test/utils/testdir.reset', testDir)
   process.chdir(__dirname)
   try {
     rimraf.sync(testDir)
   } catch (e) {
     if (process.platform !== 'win32') {
       throw e
+    } else {
+      console.log('resetdir error on windows', e)
     }
   }
   mkdirp.sync(testDir)
