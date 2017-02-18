@@ -24,14 +24,13 @@ function manifest (spec, opts, cb) {
     console.error('# rps cb', spec, err, res)
     if (err) { return cb(err) }
     // try {
-      var fetcher = handlers[res.type] || (handlers[res.type] = require('./lib/handlers/' + res.type + '/manifest'))
-    // } catch (er) {
-    //   console.error('error getting fetcher', er)
-    //   throw er
-    // }
-    console.error('calling fetcher', fetcher)
+    if (!handlers[res.type]) {
+      handlers[res.type] = require('./lib/handlers/' + res.type + '/manifest')
+    }
+    var fetcher = handlers[res.type]
+    console.error('<<< calling fetcher', fetcher)
     fetcher(res, opts, function (err, mani) {
-      console.error('# fetcher cb', spec, err, mani)
+      console.error('>>> fetcher cb', spec, err, mani)
       cb(err, mani)
     })
   })
