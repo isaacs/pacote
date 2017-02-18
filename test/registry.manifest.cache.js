@@ -8,6 +8,19 @@ t.endAll = function (endAll) { return function () {
   return endAll.apply(this, arguments)
 }}(t.endAll)
 
+t.end = function (end) { return function () {
+  console.trace('TAP end')
+  return end.apply(this, arguments)
+}}(t.end)
+
+process.on('exit', function (code) {
+  console.trace('exit', code)
+})
+
+process.once('beforeExit', function (code) {
+  console.trace('beforeExit', code)
+})
+
 var test = t.test
 var testDir = require('./util/test-dir')
 var tnock = require('./util/tnock')
