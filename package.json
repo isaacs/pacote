@@ -10,7 +10,6 @@
   "scripts": {
     "preversion": "npm t",
     "postversion": "npm publish && git push --follow-tags",
-    "pretest": "standard lib test *.js",
     "test": "nyc -- tap -j2 test/*.js"
   },
   "repository": "https://github.com/zkat/pacote",
