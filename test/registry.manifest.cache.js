@@ -4,21 +4,21 @@ var cache = require('../lib/cache')
 var npmlog = require('npmlog')
 
 t.endAll = function (endAll) { return function () {
-  console.trace('TAP endAll')
+  console.trace('TAP endAll', t)
   return endAll.apply(this, arguments)
 }}(t.endAll)
 
 t.end = function (end) { return function () {
-  console.trace('TAP end')
+  console.trace('TAP end', t)
   return end.apply(this, arguments)
 }}(t.end)
 
 process.on('exit', function (code) {
-  console.trace('exit', code)
+  console.trace('exit', code, t)
 })
 
 process.once('beforeExit', function (code) {
-  console.trace('beforeExit', code)
+  console.trace('beforeExit', code, t)
 })
 
 var test = t.test
