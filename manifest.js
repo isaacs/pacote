@@ -19,13 +19,13 @@ function manifest (spec, opts, cb) {
     throw er
   }
 
-  console.error('checked opts')
+  console.error('checked opts', spec)
   rps(spec, function (err, res) {
-    console.error('# rps cb', err, res)
+    console.error('# rps cb', spec, err, res)
     if (err) { return cb(err) }
     var fetcher = handlers[res.type] || (handlers[res.type] = require('./lib/handlers/' + res.type + '/manifest'))
     fetcher(res, opts, function (err, mani) {
-      console.error('# fetcher cb', err, mani)
+      console.error('# fetcher cb', spec, err, mani)
       cb(err, mani)
     })
   })

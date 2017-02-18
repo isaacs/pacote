@@ -17,10 +17,6 @@ process.on('exit', function (code) {
   console.error('exit', code, t)
 })
 
-process.once('beforeExit', function (code) {
-  console.error('beforeExit', code, t)
-})
-
 var test = t.test
 var testDir = require('./util/test-dir')
 var tnock = require('./util/tnock')
