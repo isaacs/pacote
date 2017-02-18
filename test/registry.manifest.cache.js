@@ -154,9 +154,11 @@ test('falls back to registry if cache entry missing', function (t) {
     retry: OPTS.retry,
     cache: CACHE
   }
+  t.comment('opts', opts)
   var srv = tnock(t, opts.registry)
   srv.get('/foo').reply(200, META)
   manifest('foo@1.2.3', opts, function (err, pkg) {
+    console.log('# manifest cb')
     if (err) { throw err }
     t.deepEqual(pkg, PKG)
     t.end()

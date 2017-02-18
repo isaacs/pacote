@@ -13,10 +13,13 @@ function manifest (spec, opts, cb) {
   }
   opts = optCheck(opts)
 
+  console.log('# calling rps')
   rps(spec, function (err, res) {
+    console.log('# rps cb', err, res)
     if (err) { return cb(err) }
     var fetcher = handlers[res.type] || (handlers[res.type] = require('./lib/handlers/' + res.type + '/manifest'))
     fetcher(res, opts, function (err, mani) {
+      console.log('# fetcher cb', err, mani)
       cb(err, mani)
     })
   })
