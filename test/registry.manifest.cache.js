@@ -4,21 +4,21 @@ var cache = require('../lib/cache')
 var npmlog = require('npmlog')
 
 t.endAll = function (endAll) { return function () {
-  console.trace('TAP endAll', t)
+  console.error('TAP endAll', t)
   return endAll.apply(this, arguments)
 }}(t.endAll)
 
 t.end = function (end) { return function () {
-  console.trace('TAP end', t)
+  console.error('TAP end', t)
   return end.apply(this, arguments)
 }}(t.end)
 
 process.on('exit', function (code) {
-  console.trace('exit', code, t)
+  console.error('exit', code, t)
 })
 
 process.once('beforeExit', function (code) {
-  console.trace('beforeExit', code, t)
+  console.error('beforeExit', code, t)
 })
 
 var test = t.test
@@ -148,19 +148,19 @@ test('allows forcing use of cache when data stale')
 test('falls back to registry if cache entry is invalid JSON')
 
 test('falls back to registry if cache entry missing', function (t) {
-  console.log('start of test')
+  console.error('start of test')
   var opts = {
     registry: OPTS.registry,
     log: OPTS.log,
     retry: OPTS.retry,
     cache: CACHE
   }
-  console.log('opts', opts)
+  console.error('opts', opts)
   var srv = tnock(t, opts.registry)
   srv.get('/foo').reply(200, META)
-  console.log('after srv.get foo')
+  console.error('after srv.get foo')
   manifest('foo@1.2.3', opts, function (err, pkg) {
-    console.log('# manifest cb', err, pkg)
+    console.error('# manifest cb', err, pkg)
     if (err) { throw err }
     t.deepEqual(pkg, PKG)
     t.end()
