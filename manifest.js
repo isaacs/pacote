@@ -15,7 +15,10 @@ function manifest (spec, opts, cb) {
 
   rps(spec, function (err, res) {
     if (err) { return cb(err) }
-    var fetcher = handlers[res.type] || (handlers[res.type] = require('./lib/handlers/' + res.type + '/manifest'))
+    if (!handlers[res.type]) {
+      handlers[res.type] = require('./lib/handlers/' + res.type + '/manifest')
+    }
+    var fetcher = handlers[res.type]
     fetcher(res, opts, function (err, mani) {
       cb(err, mani)
     })
