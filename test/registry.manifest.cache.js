@@ -155,7 +155,6 @@ test('falls back to registry if cache entry missing', function (t) {
     retry: OPTS.retry,
     cache: CACHE
   }
-  console.error('opts', opts)
   var srv = tnock(t, opts.registry)
   srv.get('/foo').reply(200, META)
   console.error('after srv.get foo')

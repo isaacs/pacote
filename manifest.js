@@ -7,19 +7,25 @@ var handlers = {}
 
 module.exports = manifest
 function manifest (spec, opts, cb) {
+  console.error('manifest fn', spec)
   if (!cb) {
     cb = opts
     opts = null
   }
-  opts = optCheck(opts)
+  try {
+    opts = optCheck(opts)
+  } catch (er) {
+    console.error('optcheck threw', er)
+    throw er
+  }
 
-  console.log('# calling rps')
+  console.error('checked opts')
   rps(spec, function (err, res) {
-    console.log('# rps cb', err, res)
+    console.error('# rps cb', err, res)
     if (err) { return cb(err) }
     var fetcher = handlers[res.type] || (handlers[res.type] = require('./lib/handlers/' + res.type + '/manifest'))
     fetcher(res, opts, function (err, mani) {
-      console.log('# fetcher cb', err, mani)
+      console.error('# fetcher cb', err, mani)
       cb(err, mani)
     })
   })
