@@ -14,7 +14,7 @@ function manifest (spec, opts, cb) {
   opts = optCheck(opts)
 
   rps(spec, function (err, res) {
-    console.log('rps cb', er, res)
+    console.log('rps cb', err, res)
     if (err) { return cb(err) }
     if (!handlers[res.type]) {
       handlers[res.type] = require('./lib/handlers/' + res.type + '/manifest')
@@ -22,7 +22,7 @@ function manifest (spec, opts, cb) {
     var fetcher = handlers[res.type]
     console.log('>>>fetcher', res.type)
     fetcher(res, opts, function (err, mani) {
-      console.log('<<<fetcher', res.type, er, mani)
+      console.log('<<<fetcher', res.type, err, mani)
       cb(err, mani)
     })
   })
