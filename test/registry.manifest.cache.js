@@ -148,17 +148,19 @@ test('allows forcing use of cache when data stale')
 test('falls back to registry if cache entry is invalid JSON')
 
 test('falls back to registry if cache entry missing', function (t) {
+  console.log('start of test')
   var opts = {
     registry: OPTS.registry,
     log: OPTS.log,
     retry: OPTS.retry,
     cache: CACHE
   }
-  t.comment('opts', opts)
+  console.log('opts', opts)
   var srv = tnock(t, opts.registry)
   srv.get('/foo').reply(200, META)
+  console.log('after srv.get foo')
   manifest('foo@1.2.3', opts, function (err, pkg) {
-    console.log('# manifest cb')
+    console.log('# manifest cb', err, pkg)
     if (err) { throw err }
     t.deepEqual(pkg, PKG)
     t.end()
