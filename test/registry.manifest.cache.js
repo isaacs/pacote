@@ -8,11 +8,11 @@ else
   console.log('# could not set stdout blocking', process.stdout._handle)
 
 process.on('exit', function (code) {
-  console.log('# custom process.on("exit") code=%j', code)
+ console.log('# custom process.on("exit") code=%j', code, t)
 })
 
 process.once('beforeExit', function (code) {
-  console.log('# custom process.on("beforeExit") code=%j', code)
+  console.log('# custom process.on("beforeExit") code=%j', code, t)
 })
 
 var onExit = require('signal-exit')

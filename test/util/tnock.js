@@ -14,8 +14,9 @@ function tnock (t, host) {
       server.done()
       threw = false
     } finally {
-      if (threw)
-        console.error('failed tnock\n%s', stack)
+      if (threw) {
+        console.error('failed tnock\n%s', stack, t)
+      }
     }
   })
   return server
