@@ -5,6 +5,23 @@ var path = require('path')
 var rimraf = require('rimraf')
 var tap = require('tap')
 
+var rmtries = process.platform === 'win32' ? 100 : 1
+
+function rimrafSync (dir) {
+  var i = 0
+  do {
+    i++
+    try {
+      return rimraf.sync(dir)
+    } finally {
+      if (i < rmtries) {
+        continue
+      }
+    }
+  } while (true)
+}
+
+
 var cacheDir = path.resolve(__dirname, '../cache')
 
 module.exports = testDir
@@ -15,15 +32,7 @@ function testDir (filename) {
   if (!process.env.KEEPCACHE) {
     tap.tearDown(function () {
       process.chdir(__dirname)
-      try {
-        rimraf.sync(dir)
-      } catch (e) {
-        if (process.platform !== 'win32') {
-          throw e
-        } else {
-          console.log('testDir error on windows', e)
-        }
-      }
+      rimrafSync(dir)
     })
     tap.afterEach(function (cb) {
       reset(dir)
@@ -37,15 +46,7 @@ module.exports.reset = reset
 function reset (testDir) {
   console.log('~~~ test/utils/testdir.reset', testDir)
   process.chdir(__dirname)
-  try {
-    rimraf.sync(testDir)
-  } catch (e) {
-    if (process.platform !== 'win32') {
-      throw e
-    } else {
-      console.log('resetdir error on windows', e)
-    }
-  }
+  rimrafSync(testDir)
   mkdirp.sync(testDir)
   process.chdir(testDir)
 }
