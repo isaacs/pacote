@@ -1,41 +1,7 @@
 'use strict'
 var t = require('tap')
-t.comment('just some comment to kick us off')
-
-t.inspect = null
-
-if (process.stdout._handle && process.stdout._handle.setBlocking)
-  process.stdout._handle.setBlocking(true)
-else
-  console.log('# could not set stdout blocking', process.stdout._handle)
-
-process.on('exit', function (code) {
- console.log('# custom process.on("exit") code=%j', code, t)
-})
-
-process.once('beforeExit', function (code) {
-  console.log('# custom process.on("beforeExit") code=%j', code, t)
-})
-
-var onExit = require('signal-exit')
-onExit(function (code, signal) {
-  console.error('exiting code=%j signal=%j err', code, signal, t)
-  console.log('# exiting code=%j signal=%j out', code, signal, t)
-  t.process()
-})
-
 var cache = require('../lib/cache')
 var npmlog = require('npmlog')
-
-t.end = function (end) { return function () {
-  console.trace('---- end ----', t)
-  return end.apply(t, arguments)
-}}(t.end)
-
-t.endAll = function (endAll) { return function () {
-  console.trace('---- endAll ----', t)
-  return endAll.apply(t, arguments)
-}}(t.endAll)
 
 var test = t.test
 var testDir = require('./util/test-dir')
@@ -178,5 +144,3 @@ test('falls back to registry if cache entry missing', function (t) {
     t.end()
   })
 })
-
-console.log('# done defining tests')
