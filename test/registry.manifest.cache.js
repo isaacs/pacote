@@ -1,6 +1,7 @@
 'use strict'
 var t = require('tap')
 t.comment('just some comment to kick us off')
+
 t.inspect = null
 
 if (process.stdout._handle && process.stdout._handle.setBlocking)
